@@ -15,16 +15,17 @@ pkgs.stdenv.mkDerivation rec {
     include = ./src/include;
     extension = "c";
 
-	test_name = "./test/tcp_test.c"
+	src = ./test;
+	test_name = "tcp_test";
 
     configurePhase = ''
         declare -xp
         mkdir -p "$out/bin/"
     '';
     buildPhase = ''
-        clang -c $test_name -I "$(find $include -type d)"
+        clang -c $src/$test_name.c -I "$(find $include -type d)"
         mv $(find . -name "*.o") $out
-        clang -B mold $out/*.o -o $out/bin/$pname
+        clang -B mold $out/*.o -o $out/bin/$test_name
     '';
 	installPhase = ''
 	'';

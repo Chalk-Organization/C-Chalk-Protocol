@@ -6,7 +6,7 @@ let
 in
 pkgs.stdenv.mkDerivation rec {
     name = "build";
-    pname = "nix-c-test";
+    pname = "chalk-protocol";
     version = "0.1.0";
 
     buildInputs = [ coreutils clang mold ];

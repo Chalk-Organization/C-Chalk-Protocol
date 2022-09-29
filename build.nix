@@ -17,12 +17,12 @@ pkgs.stdenv.mkDerivation rec {
 
     configurePhase = ''
         declare -xp
-        mkdir -p "$out/bin/"
+        mkdir -p "$out/lib/"
     '';
     buildPhase = ''
         clang -c $(find $src -name "*.$extension") -I "$(find $include -type d)"
         mv $(find . -name "*.o") $out
-        clang -B mold $out/*.o -o $out/bin/$pname
+        clang -B mold $out/*.o -shared -o $out/lib/$pname.so
     '';
 	installPhase = ''
 	'';

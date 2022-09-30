@@ -15,12 +15,14 @@ pkgs.stdenv.mkDerivation rec {
     include = ./src/include;
     extension = "c";
 
+    build_flags = "-Wall -Wextra -Wpedantic";
+
     configurePhase = ''
         declare -xp
         mkdir -p "$out/lib/"
     '';
     buildPhase = ''
-        clang -c $(find $src -name "*.$extension") -I "$(find $include -type d)"
+        clang -c $(find $src -name "*.$extension") -I "$(find $include -type d)" $build_flags 1> $out/log 2>&1
         mv $(find . -name "*.o") $out
         clang -B mold $out/*.o -shared -o $out/lib/$pname.so
     '';

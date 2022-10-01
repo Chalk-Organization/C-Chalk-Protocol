@@ -9,7 +9,7 @@ vector
 	size_t len;
 
 	void (*push) (struct vector *self, void *value);
-	void (*get) (struct vector *const self, size_t index);
+	void const* (*get) (struct vector *const self, size_t index);
 	void * (*pop) (struct vector *self);
 }
 t_vector;
@@ -17,7 +17,7 @@ t_vector;
 void
 vector_push (t_vector *self, void *value);
 
-void
+void const*
 vector_get (t_vector *const self, size_t index);
 
 void *

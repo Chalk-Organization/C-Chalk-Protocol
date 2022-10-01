@@ -6,7 +6,20 @@
 void
 vector_push (t_vector *self, void *value)
 {
+	// checks if it needs to reallocate 
+	// because it will segfault if don't realloc
+	if (self->len >= (self->size / sizeof(void *))) 
+	{
+		self->size *= 2;
+		self->data = realloc(self->data, self->size);
+	}
+	self->data[self->len++] = value;
+}
 
+void const*
+vector_get (t_vector *const self, size_t index)
+{
+	return self->data[index];
 }
 
 t_vector 

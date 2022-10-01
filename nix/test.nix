@@ -21,10 +21,12 @@ pkgs.stdenv.mkDerivation rec {
     configurePhase = ''
         declare -xp
         mkdir -p "$out/bin/"
+        mkdir -p "$out/obj/"
     '';
     buildPhase = ''
-        clang -c $src/$test_name.c -I "$(find $include -type d)"
-        mv $(find . -name "*.o") $out
+        cp -r $include/* $out/
+        clang -c $src/$test_name.c -I "$(find $src/include -type d)" 1> $out/log 2>&1
+        mv $(find . -name "*.o") $out/obj
         clang -B mold $out/*.o -o $out/bin/$test_name
     '';
 	installPhase = ''

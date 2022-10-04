@@ -1,0 +1,17 @@
+[package]
+name = "chalk-protocol"
+version = "1.0.0"
+
+[tools]
+linker = "mold"
+
+[meta]
+output_name = "./target/lib/${name}-${version}.so"
+compiler_args = "-fPIC"
+linker_args = "-shared"
+
+[compile]
+before = [
+	"mkdir -p ./target/lib",
+	"mkdir -p ./target/obj"
+]

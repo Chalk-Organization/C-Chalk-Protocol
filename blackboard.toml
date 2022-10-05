@@ -15,3 +15,9 @@ before = [
 	"mkdir -p ./target/lib",
 	"mkdir -p ./target/obj"
 ]
+
+[linking]
+after = [
+	"rm -rf ./target/obj",
+	"du -h ${output_name}"
+]

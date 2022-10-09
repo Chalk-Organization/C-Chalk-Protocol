@@ -2,22 +2,17 @@
 name = "chalk-protocol"
 version = "1.0.0"
 
-[tools]
+[[bin]]
+default = true
+bin_name = "default"
+
+[bin.tools]
 linker = "mold"
 
-[meta]
-output_name = "./target/lib/${name}-${version}.so"
-compiler_args = "-fPIC"
+[bin.args]
+compiler_args = "-O2 -fPIC"
 linker_args = "-shared"
+out_name = "${name}-${version}.so"
 
-[compile]
-before = [
-	"mkdir -p ./target/lib",
-	"mkdir -p ./target/obj"
-]
-
-[linking]
-after = [
-	"rm -rf ./target/obj",
-	"du -h ${output_name}"
-]
+[bin.compiling]
+before = ["mkdir -p ./target/lib ./target/obj"]

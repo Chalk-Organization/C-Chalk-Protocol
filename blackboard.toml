@@ -42,9 +42,11 @@ run = [
 after = ["mv *.o ./target/tests/obj"]
 
 [bin.linking]
-before = ["export LD_LIBRARY_PATH=./target/lib"]
 run = [
 	"${compiler} -B ${linker} ./target/tests/obj/tcp_test.o -o ${out_path}/tcp_test -L ./target/lib/ -l ${name}-${version}",
 	"${compiler} -B ${linker} ./target/tests/obj/vector_test.o -o ${out_path}/vector_test -L ./target/lib/ -l ${name}-${version}",
 ]
-after = ["./target/tests/bin/tcp_test", "./target/tests/bin/vector_test"]
+after = [
+	"LD_LIBRARY_PATH=./target/lib ./target/tests/bin/tcp_test",
+	"LD_LIBRARY_PATH=./target/lib ./target/tests/bin/vector_test",
+]

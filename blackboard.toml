@@ -24,21 +24,27 @@ bin_name = "test"
 [bin.tools]
 linker = "mold"
 
+[bin.meta]
+header_dirs = "find ./src/include -type d"
+
 [bin.args]
 out_path = "./target/tests/bin"
 
 [bin.compiling]
 before = [
 	"mkdir -p ./target/tests/bin ./target/tests/obj",
-	"export LD_LIBRARY_PATH=./target/lib",
+	"cp -r ./src/include ./test/",
 ]
 run = [
-	"${compiler} ${compiler_args} -c ./test/tcp_test.c -l ${name}-${version}",
+	"${compiler} ${compiler_args} -c ./test/tcp_test.c -I ${header_dirs}",
+	"${compiler} ${compiler_args} -c ./test/vector_test.c -I ${header_dirs}",
 ]
 after = ["mv *.o ./target/tests/obj"]
 
 [bin.linking]
+before = ["export LD_LIBRARY_PATH=./target/lib"]
 run = [
-	"${compiler} -B ${linker} ./target/tests/obj/tcp_test.o -o ${out_path}/tcp_test",
+	"${compiler} -B ${linker} ./target/tests/obj/tcp_test.o -o ${out_path}/tcp_test -L ./target/lib/ -l ${name}-${version}",
+	"${compiler} -B ${linker} ./target/tests/obj/vector_test.o -o ${out_path}/vector_test -L ./target/lib/ -l ${name}-${version}",
 ]
-after = ["./target/tests/bin/tcp_test"]
+after = ["./target/tests/bin/tcp_test", "./target/tests/bin/vector_test"]

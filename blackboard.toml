@@ -13,7 +13,32 @@ linker = "mold"
 compiler_args = "-O2 -fPIC"
 linker_args = "-shared"
 out_path = "./target/lib"
-out_name = "${name}-${version}.so"
+out_name = "lib${name}-${version}.so"
 
 [bin.compiling]
 before = ["mkdir -p ./target/lib ./target/obj"]
+
+[[bin]]
+bin_name = "test"
+
+[bin.tools]
+linker = "mold"
+
+[bin.args]
+out_path = "./target/tests/bin"
+
+[bin.compiling]
+before = [
+	"mkdir -p ./target/tests/bin ./target/tests/obj",
+	"export LD_LIBRARY_PATH=./target/lib",
+]
+run = [
+	"${compiler} ${compiler_args} -c ./test/tcp_test.c -l ${name}-${version}",
+]
+after = ["mv *.o ./target/tests/obj"]
+
+[bin.linking]
+run = [
+	"${compiler} -B ${linker} ./target/tests/obj/tcp_test.o -o ${out_path}/tcp_test",
+]
+after = ["./target/tests/bin/tcp_test"]

@@ -13,6 +13,8 @@ void vector_push(t_vector *self, void *value) {
 	self->data[self->len++] = value;
 }
 
+void *vector_pop(t_vector *self) { return self->data[--self->len]; }
+
 void const *vector_get(t_vector *const self, size_t index) {
 	return self->data[index];
 }

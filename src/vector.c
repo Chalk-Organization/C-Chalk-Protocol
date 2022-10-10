@@ -1,35 +1,27 @@
 #include "include/vector.h"
 #include <stddef.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-void
-vector_push (t_vector *self, void *value)
-{
-	// checks if it needs to reallocate 
+void vector_push(t_vector *self, void *value) {
+	// checks if it needs to reallocate
 	// because it will segfault if don't realloc
-	if (self->len >= (self->size / sizeof(void *))) 
-	{
+	if (self->len >= (self->size / sizeof(void *))) {
 		self->size *= 2;
 		self->data = realloc(self->data, self->size);
 	}
 	self->data[self->len++] = value;
 }
 
-void const*
-vector_get (t_vector *const self, size_t index)
-{
+void const *vector_get(t_vector *const self, size_t index) {
 	return self->data[index];
 }
 
-t_vector 
-new_vector () 
-{
+t_vector new_vector() {
 	t_vector vector;
 	vector.size = sizeof(void *);
 	vector.data = malloc(vector.size);
-	if (vector.data == NULL)
-	{
+	if (vector.data == NULL) {
 		perror("Failed to Allocate `vector`.");
 	}
 	vector.len = 0;

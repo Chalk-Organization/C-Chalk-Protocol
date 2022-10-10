@@ -12,6 +12,7 @@ linker = "mold"
 [bin.args]
 compiler_args = "-O2 -fPIC"
 linker_args = "-shared"
+out_path = "./target/lib"
 out_name = "${name}-${version}.so"
 
 [bin.compiling]
